@@ -1,5 +1,5 @@
 class Car {
-  constructor(x, y, width, height, controlType, maxSpeed = 10) {
+  constructor(x, y, width, height, controlType, maxSpeed = 15) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -122,7 +122,7 @@ class Car {
     this.y -= Math.cos(this.angle) * this.speed;
   }
 
-  draw(ctx, color) {
+  draw(ctx, color, drawSensors = false) {
     if (this.damaged) {
       ctx.fillStyle = "red";
     } else {
@@ -135,7 +135,7 @@ class Car {
     }
     ctx.fill();
 
-    if(this.sensor){
+    if(this.sensor && drawSensors){
       this.sensor.draw(ctx);
     }
   }
