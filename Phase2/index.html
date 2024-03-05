@@ -1,36 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <title>Self Driving Car - World Editor</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Self-Driving Car Simulator World</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
     <h1>World Editor</h1>
     <canvas id="myCanvas"></canvas>
     <div id="controls">
-        <button onCLick="dispose()">🗑️</button>
-        <button onCLick="save()">💾</button>
+        <button onclick="dispose()">🗑️</button>
+        <button onclick="save()">💾</button>
     </div>
 
+    <script src="js/world.js"></script>
     <script src="js/graphEditor.js"></script>
     <script src="js/viewport.js"></script>
-    <script src="js/math/graph.js"></script>
     <script src="js/math/utils.js"></script>
+    <script src="js/math/graph.js"></script>
     <script src="js/primitives/point.js"></script>
     <script src="js/primitives/segment.js"></script>
+    <script src="js/primitives/polygon.js"></script>
+    <script src="js/primitives/envelope.js"></script>
     <script>
         myCanvas.width = 800;
         myCanvas.height = 800;
 
-        const ctx = myCanvas.getContext('2d');
+        const ctx = myCanvas.getContext("2d");
 
-        const graphString = localStorage.getItem('graph');
+        const graphString = localStorage.getItem("graph");
         const graphInfo = graphString ? JSON.parse(graphString) : null;
         const graph = graphInfo
             ? Graph.load(graphInfo)
             : new Graph();
+        const world = new World(graph);
+
         const viewport = new Viewport(myCanvas);
         const graphEditor = new GraphEditor(viewport, graph);
 
@@ -38,6 +43,9 @@
 
         function animate() {
             viewport.reset();
+            world.generate();
+            world.draw(ctx);
+            ctx.globalAlpha = 0.3;
             graphEditor.display();
             requestAnimationFrame(animate);
         }
@@ -47,7 +55,7 @@
         }
 
         function save() {
-            localStorage.setItem('graph', JSON.stringify(graph));
+            localStorage.setItem("graph", JSON.stringify(graph));
         }
     </script>
 </body>

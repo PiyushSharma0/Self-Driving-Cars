@@ -4,11 +4,11 @@ class Segment {
         this.p2 = p2;
     }
 
-    equals(segment) {
-        return this.includesPoint(segment.p1) && this.includesPoint(segment.p2);
+    equals(seg) {
+        return this.includes(seg.p1) && this.includes(seg.p2);
     }
 
-    includesPoint(point) {
+    includes(point) {
         return this.p1.equals(point) || this.p2.equals(point);
     }
 
